@@ -12,6 +12,7 @@ EXTRA_DOMAINS=${EXTRA_DOMAINS}\\n\
 ONLY_SUBDOMAINS=${ONLY_SUBDOMAINS}\\n\
 VALIDATION=${VALIDATION}\\n\
 CERTPROVIDER=${CERTPROVIDER}\\n\
+CERTBOT_HTTP01_PORT=${CERTBOT_HTTP01_PORT}\\n\
 DNSPLUGIN=${DNSPLUGIN}\\n\
 EMAIL=${EMAIL}\\n\
 STAGING=${STAGING}\\n"
@@ -287,10 +288,10 @@ if [[ "${VALIDATION}" = "dns" ]]; then
     PREFCHAL="${AUTHENTICATORPARAM} ${DNSCREDENTIALSPARAM} ${PROPAGATIONPARAM}"
     echo "${VALIDATION} validation via ${DNSPLUGIN} plugin is selected"
 elif [[ "${VALIDATION}" = "tls-sni" ]]; then
-    PREFCHAL="--standalone --preferred-challenges http"
+    PREFCHAL="--standalone --preferred-challenges http --http-01-port $(CERTBOT_HTTP01_PORT)"
     echo "*****tls-sni validation has been deprecated, attempting http validation instead"
 else
-    PREFCHAL="--standalone --preferred-challenges http"
+    PREFCHAL="--standalone --preferred-challenges http --http-01-port $(CERTBOT_HTTP01_PORT)"
     echo "http validation is selected"
 fi
 
